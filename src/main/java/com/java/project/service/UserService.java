@@ -1,6 +1,8 @@
 package com.java.project.service;
 
 import com.java.project.dao.UserDao;
+import com.java.project.dao.UserHibernateDao;
+import com.java.project.dao.UserJdbcDao;
 import com.java.project.model.User;
 
 import java.sql.SQLException;
@@ -8,11 +10,9 @@ import java.util.List;
 
 public class UserService {
 
-    private UserDao userDao = new UserDao();
+    private UserDao userDao = new UserHibernateDao();
 
-    public UserService() {
-
-    }
+    public UserService() {}
 
     public void createUser(User user) {
         try {
@@ -32,7 +32,8 @@ public class UserService {
 
     public void deleteUser(Long id) {
         try {
-            userDao.deleteUser(id);
+            User user = userDao.getUserById(id);
+            userDao.deleteUser(user);
         } catch (SQLException e) {
             e.printStackTrace();
         }
