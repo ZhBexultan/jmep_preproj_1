@@ -2,6 +2,7 @@ package com.java.project.servlet;
 
 import com.java.project.service.UserService;
 import com.java.project.model.User;
+import com.java.project.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import java.util.List;
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
 
-    private UserService userService = new UserService();
+    private UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

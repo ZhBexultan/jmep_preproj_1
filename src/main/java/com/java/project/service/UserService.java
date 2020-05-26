@@ -8,55 +8,16 @@ import com.java.project.model.User;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserService {
+public interface UserService {
 
-    private UserDao userDao = new UserHibernateDao();
+    void createUser(User user);
 
-    public UserService() {}
+    void updateUser(User user);
 
-    public void createUser(User user) {
-        try {
-            userDao.addUser(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    void deleteUser(Long id);
 
-    public void updateUser(User user) {
-        try {
-            userDao.updateUser(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    User getUserById(Long id);
 
-    public void deleteUser(Long id) {
-        try {
-            User user = userDao.getUserById(id);
-            userDao.deleteUser(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public User getUserById(Long id) {
-        User user = null;
-        try {
-            user = userDao.getUserById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-    public List<User> getAllUsers() {
-        List<User> users = null;
-        try {
-            users = userDao.getAllUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
+    List<User> getAllUsers();
 
 }
