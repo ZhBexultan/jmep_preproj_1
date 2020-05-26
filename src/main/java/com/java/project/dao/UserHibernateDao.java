@@ -1,7 +1,7 @@
 package com.java.project.dao;
 
 import com.java.project.model.User;
-import com.java.project.util.HibernateUtil;
+import com.java.project.util.DBHelper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserHibernateDao implements UserDao {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private SessionFactory sessionFactory = DBHelper.getSessionFactory();
 
     @Override
     public void addUser(User user) throws SQLException {

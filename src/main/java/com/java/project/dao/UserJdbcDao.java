@@ -1,7 +1,7 @@
 package com.java.project.dao;
 
 import com.java.project.model.User;
-import com.java.project.util.JdbcUtil;
+import com.java.project.util.DBHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserJdbcDao implements UserDao {
 
-    private Connection connection = JdbcUtil.getConnection();
+    private Connection connection = DBHelper.getConnection();
 
     @Override
     public void addUser(User user) throws SQLException {
