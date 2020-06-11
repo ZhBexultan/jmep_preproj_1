@@ -53,10 +53,37 @@ public class UserHibernateDao implements UserDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<User> getAllUsers() throws SQLException {
         Session session = sessionFactory.openSession();
         List<User> users =session.createQuery("FROM User").list();
         session.close();
         return users;
+    }
+
+    @Override
+    public User getUserByLoginAndPassword(String email, String password) throws SQLException {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM User WHERE email = :email AND password = :password";
+        Query query = session.createQuery(hql);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        User user = (User) query.getSingleResult();
+        session.close();
+        return user;
+    }
+
+    @Override
+    public boolean isUserExist(String email, String password) throws SQLException {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM User WHERE email = :email AND password = :password";
+        Query query = session.createQuery(hql);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        List<User> users = (List<User>) query.getResultList();
+        if (users.isEmpty() || users == null) {
+            return false;
+        }
+        return true;
     }
 }

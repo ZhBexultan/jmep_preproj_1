@@ -73,6 +73,29 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    public User getUserByLoginAndPassword(String login, String password) {
+        User user = null;
+        try {
+            if (isUserExist(login, password)) {
+                user = userDao.getUserByLoginAndPassword(login, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public boolean isUserExist(String login, String password) {
+        boolean result = false;
+        try {
+            result = userDao.isUserExist(login, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private static String getPropertyValue() {
         Properties property = new Properties();
         String daotype = "";
@@ -95,4 +118,5 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(daotype + " is unknown daotype.");
         }
     }
+
 }

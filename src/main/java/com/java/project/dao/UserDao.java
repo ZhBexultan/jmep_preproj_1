@@ -17,4 +17,8 @@ public interface UserDao {
 
     List<User> getAllUsers() throws SQLException;
 
+    User getUserByLoginAndPassword(String email, String password) throws SQLException;
+
+    boolean isUserExist(String email, String password) throws SQLException;
+
 }

@@ -20,4 +20,8 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    User getUserByLoginAndPassword(String login, String password);
+
+    boolean isUserExist(String login, String password);
+
 }

@@ -9,29 +9,34 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/admin/editUser")
-public class UpdateServlet extends HttpServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
 
     private UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long id = Long.parseLong(request.getParameter("id"));
-        User user = userService.getUserById(id);
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/update.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long id = Long.parseLong(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+        String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        userService.updateUser(new User(id, name, email, password, role));
-        response.sendRedirect("/admin/");
+        User user = userService.getUserByLoginAndPassword(login, password);
+        if (user != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            if (user.getRole().equals("admin")) {
+                response.sendRedirect("/admin/");
+            } else if (user.getRole().equals("user")) {
+                response.sendRedirect("/user");
+            }
+        } else {
+            response.sendRedirect("/login");
+        }
     }
 }
